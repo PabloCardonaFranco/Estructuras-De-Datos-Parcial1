@@ -5,7 +5,6 @@ import Restricciones.Restricciones;
 
 import java.io.*;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Queue;
 
 public class FileIO //File Input-Output
@@ -14,7 +13,6 @@ public class FileIO //File Input-Output
 
     public static void Registrar()
     {
-        Math.random();
         try
         {
             BufferedWriter writer = new BufferedWriter(new FileWriter(NombreArchivo));
@@ -22,13 +20,14 @@ public class FileIO //File Input-Output
             writer.write(encabezado);
 
             String TipoPaciente, Genoma;
-            int NivelInfeccion, NivelSalud;
+            int Id, NivelInfeccion, NivelSalud;
             int UnidadesVacunaA, UnidadesSueroB, TanquesOxigeno;
 
             for(int i = 1; i <= Restricciones.TotalPacientes; i++)
             {
                 //Asigna aleatoriamente el tipo de paciente así como su nivel de infección y salud iniciales.
                 TipoPaciente = "militar"; //Esto es una prueba.
+                Id = i; //Esto es poco práctico.
                 NivelInfeccion = 1; //Esto es una prueba.
                 NivelSalud = 100; //Esto es una prueba.
 
@@ -39,7 +38,7 @@ public class FileIO //File Input-Output
                 Genoma = String.format("A%dB%dO%d", UnidadesVacunaA, UnidadesSueroB, TanquesOxigeno);
 
                 //Registra el paciente en el archivo CSV
-                writer.write(String.format("%s;%d;%d;%s", TipoPaciente, NivelInfeccion, NivelSalud, Genoma));
+                writer.write(String.format("%s;%d,%d;%d;%s", TipoPaciente, Id, NivelInfeccion, NivelSalud, Genoma));
             }
 
         }catch (IOException e)
@@ -48,12 +47,12 @@ public class FileIO //File Input-Output
         }
     }
 
-    public static void Leer()
+    public static Queue<Paciente> Leer()
     {
         Queue<Paciente> filaPacientes = new LinkedList<>();
         Paciente p;
         String TipoPaciente, Genoma;
-        int NivelInfeccion, NivelSalud;
+        int Id, NivelInfeccion, NivelSalud;
 
         try
         {
@@ -67,9 +66,23 @@ public class FileIO //File Input-Output
                 {
                     InformacionPaciente = line.split(";");
                     TipoPaciente = InformacionPaciente[0].toLowerCase();
-                    NivelInfeccion = Integer.parseInt(InformacionPaciente[1]);
-                    NivelSalud = Integer.parseInt(InformacionPaciente[2]);
-                    Genoma = InformacionPaciente[3];
+                    Id = Integer.parseInt(InformacionPaciente[1]);
+                    NivelInfeccion = Integer.parseInt(InformacionPaciente[2]);
+                    NivelSalud = Integer.parseInt(InformacionPaciente[3]);
+                    Genoma = InformacionPaciente[4];
+
+                    switch(TipoPaciente)
+                    {
+                        case "medico": p = new Medico(Id, NivelInfeccion, NivelSalud, Genoma); break;
+
+                        case "miliar": p = new Militar(Id, NivelInfeccion, NivelSalud, Genoma); break;
+
+                        case "civil": p = new Civil(Id, NivelInfeccion, NivelSalud, Genoma); break;
+
+                        default: throw  new IllegalArgumentException("Tipo de Paciente no reconocido: " + TipoPaciente);
+                    }
+
+                    filaPacientes.add(p);
                 }catch (Exception e)
                 {
                     System.out.println(e.getMessage());
@@ -79,5 +92,7 @@ public class FileIO //File Input-Output
         {
             System.out.println(e.getMessage());
         }
+
+        return filaPacientes;
     }
 }
