@@ -1,6 +1,7 @@
 package Model.Pacientes;
 
 import Model.Interface.IInfeccion;
+import Model.Pacientes.Enum.TipoPaciente;
 import Restricciones.Restricciones;
 
 import java.util.Objects;
@@ -8,12 +9,20 @@ import java.util.Objects;
 public abstract class Paciente implements IInfeccion
 {
     //Atributos
-    protected int Id;
-    protected float NivelInfeccion;
-    protected float NivelSalud;
-    protected String Genoma;
-    protected float ModificadorInfeccion; //Esto funciona pero no es 100% correcto.
-    protected float ModificadorSalud; //Esto funciona pero no es 100% correcto.
+    private int Id;
+    private float NivelInfeccion;
+    private float NivelSalud;
+    private String Genoma;
+
+    //Recursos Requeridos para curarse:
+    private byte UnidadesRequeridasVacunaA;
+    private byte UnidadesRequeridasSueroB;
+    private byte TanquesOxigenoRequeridos;
+
+    //Esto funciona pero no es correcto
+    protected TipoPaciente Tipo;
+    protected float ModificadorInfeccion;
+    protected float ModificadorSalud;
 
     //Constructor
     protected Paciente(int id, float nivel_infeccion, float nivel_salud, String genoma)
@@ -22,9 +31,13 @@ public abstract class Paciente implements IInfeccion
         NivelInfeccion = nivel_infeccion;
         NivelSalud = nivel_salud;
         Genoma = genoma;
+
+        InterpretarGenoma();
     }
 
     //Getters
+
+    //Atributos
     public int getId() { return Id; }
 
     public float getNivelInfeccion() {return NivelInfeccion; }
@@ -32,6 +45,13 @@ public abstract class Paciente implements IInfeccion
     public float getNivelSalud() { return NivelSalud; }
 
     public String getGenoma() { return Genoma; }
+
+    //Recursos necesarios para curarse
+    public byte getUnidadesRequeridasVacunaA() { return UnidadesRequeridasVacunaA; }
+
+    public byte getUnidadesRequeridasSueroB() { return UnidadesRequeridasSueroB; }
+
+    public byte getTanquesOxigenoRequeridos() { return TanquesOxigenoRequeridos; }
 
     //Implementación de la Interfaz
     @Override
@@ -56,11 +76,38 @@ public abstract class Paciente implements IInfeccion
         }
     }
 
+    private void InterpretarGenoma()
+    {
+        try
+        {
+            String[] InformacionGenomica = Genoma.split("-"); //Necesita correccion.
+
+            if((InformacionGenomica.length < Restricciones.TotalAtributosGenomicos)) throw new IllegalArgumentException("Genoma no valido.");
+
+            UnidadesRequeridasVacunaA = Byte.parseByte(InformacionGenomica[0]);
+            UnidadesRequeridasSueroB = Byte.parseByte(InformacionGenomica[1]);
+            UnidadesRequeridasSueroB = Byte.parseByte(InformacionGenomica[2]);
+        }catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
     //ToString
     @Override
     public String toString()
     {
-        return String.format("\nId: %d.\n\nNivel de Infeccion: %.2f.\n\nNivel de Salud: %.2f.\n\nGenoma: %s.\n", Id, NivelInfeccion, NivelSalud, Genoma);
+        return String.format(
+                "\nPaciente #%d\n" +
+                "\nTipo de Paciente: %s\n" +
+                "\nNivel de Infeccion: %.2f\n" +
+                "\nNivel de Salud: %.2f\n" +
+                "\nGenoma: %s\n" +
+                "\nMedicamentos necesarios para curarse:\n" +
+                        "\n * Vacunas A: %d unidades\n" +
+                        "\n * Suero B: %d unidades\n" +
+                        "\n * Tanques de Oxigeno: %d unidades\n",
+        Id, Tipo, NivelInfeccion, NivelSalud, Genoma, UnidadesRequeridasVacunaA, UnidadesRequeridasSueroB, TanquesOxigenoRequeridos);
     }
 
     //Equals
