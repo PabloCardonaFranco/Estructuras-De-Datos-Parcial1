@@ -1,7 +1,7 @@
 package GestorArchivo;
 
 import Model.Pacientes.*;
-import Restricciones.Restricciones;
+import Parametros.Parametros;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -26,7 +26,7 @@ public class FileIO //File Input-Output
             float NivelInfeccion, NivelSalud;
             int UnidadesVacunaA, UnidadesSueroB, TanquesOxigeno;
 
-            for(int i = 1; i <= Restricciones.TotalPacientes; i++)
+            for(int i = 1; i <= Parametros.TotalPacientes; i++)
             {
                 //Asigna aleatoriamente el tipo de paciente así como su nivel de infección y salud iniciales.
                 TipoPaciente = switch (r.nextInt(3))
@@ -38,13 +38,13 @@ public class FileIO //File Input-Output
                 };
 
                 Id = i; //Esto es poco práctico.
-                NivelInfeccion = r.nextFloat(Restricciones.InfeccionInicialMax) + 1; //El nivel de Infección debería comenzar entre 1 y 20.
-                NivelSalud = Restricciones.SaludMax - r.nextFloat(Restricciones.DebuffSaludMax); //El nivel de salud debería comenzar en entr 50 y 100.
+                NivelInfeccion = r.nextFloat(Parametros.InfeccionInicialMax) + 1; //El nivel de Infección debería comenzar entre 1 y 20.
+                NivelSalud = Parametros.SaludMax - r.nextFloat(Parametros.DebuffSaludMax); //El nivel de salud debería comenzar en entr 50 y 100.
 
                 //Asigna Aleatoriamente la cantidad de recursos necesarios para curar al paciente y construye su genoma.
-                UnidadesVacunaA =  r.nextInt(Restricciones.VacunaARequeridaMax) + 1; //Entre 1 y 5.
-                UnidadesSueroB = r.nextInt(Restricciones.SueroBRequeridoMax) + 1;//Entre 1 y 5.
-                TanquesOxigeno = r.nextInt(Restricciones.TanquesOxigenoRequeridoMax) + 1; //Entre 1 y 4.
+                UnidadesVacunaA =  r.nextInt(Parametros.VacunaARequeridaMax) + 1; //Entre 1 y 5.
+                UnidadesSueroB = r.nextInt(Parametros.SueroBRequeridoMax) + 1;//Entre 1 y 5.
+                TanquesOxigeno = r.nextInt(Parametros.TanquesOxigenoRequeridoMax) + 1; //Entre 1 y 4.
                 Genoma = String.format("A%d-B%d-O%d", UnidadesVacunaA, UnidadesSueroB, TanquesOxigeno);
 
                 //Registra el paciente en el archivo CSV

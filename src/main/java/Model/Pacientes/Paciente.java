@@ -2,7 +2,7 @@ package Model.Pacientes;
 
 import Model.Interface.IInfeccion;
 import Model.Pacientes.Enum.TipoPaciente;
-import Restricciones.Restricciones;
+import Parametros.Parametros;
 
 import java.util.Objects;
 
@@ -57,9 +57,9 @@ public abstract class Paciente implements IInfeccion
     @Override
     public void IncrementarInfeccion()
     {
-        if(NivelInfeccion < Restricciones.InfeccionMax)
+        if(NivelInfeccion < Parametros.InfeccionMax)
         {
-            if(NivelInfeccion * ModificadorInfeccion > Restricciones.InfeccionMax) NivelInfeccion = Restricciones.InfeccionMax; //Alcanza el máximo nivel de infección.
+            if(NivelInfeccion * ModificadorInfeccion > Parametros.InfeccionMax) NivelInfeccion = Parametros.InfeccionMax; //Alcanza el máximo nivel de infección.
 
             NivelInfeccion *= ModificadorInfeccion;
         }
@@ -68,9 +68,9 @@ public abstract class Paciente implements IInfeccion
     @Override
     public void DisminuirSalud()
     {
-        if(NivelSalud > Restricciones.SaludMin)
+        if(NivelSalud > Parametros.SaludMin)
         {
-            if(NivelSalud * ModificadorSalud < Restricciones.SaludMin) NivelSalud = Restricciones.SaludMin; //La salud cae a 0. (el paciente muere)
+            if(NivelSalud * ModificadorSalud < Parametros.SaludMin) NivelSalud = Parametros.SaludMin; //La salud cae a 0. (el paciente muere)
 
             NivelSalud *= ModificadorSalud;
         }
@@ -82,11 +82,11 @@ public abstract class Paciente implements IInfeccion
         {
             String[] InformacionGenomica = Genoma.split("-"); //Necesita correccion.
 
-            if((InformacionGenomica.length < Restricciones.TotalAtributosGenomicos)) throw new IllegalArgumentException("Genoma no valido.");
+            if((InformacionGenomica.length < Parametros.TotalAtributosGenomicos)) throw new IllegalArgumentException("Genoma no valido.");
 
             UnidadesRequeridasVacunaA = Byte.parseByte(InformacionGenomica[0]);
             UnidadesRequeridasSueroB = Byte.parseByte(InformacionGenomica[1]);
-            UnidadesRequeridasSueroB = Byte.parseByte(InformacionGenomica[2]);
+            TanquesOxigenoRequeridos = Byte.parseByte(InformacionGenomica[2]);
         }catch (Exception e)
         {
             System.out.println(e.getMessage());
