@@ -2,16 +2,13 @@ package Main;
 
 import GestorArchivo.FileIO;
 import Model.Pacientes.*;
+import Parametros.*;
+import Model.Suministros.*;
 
 import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
 
-import Model.Suministros.SueroB;
-import Model.Suministros.Suministro;
-import Model.Suministros.TanqueOxigeno;
-import Model.Suministros.VacunaA;
-import Parametros.Parametros;
 import org.apache.commons.collections4.Bag;
 import org.apache.commons.collections4.bag.HashBag;
 
@@ -40,7 +37,7 @@ public class Main
         do
         {
             CargaViral += Parametros.IncrementoNatural;
-        }while (CargaViral < Parametros.UmbralColapso && ! FilaPacientes.isEmpty() && ! UCI.empty());
+        }while (CargaViral < Parametros.UmbralColapso && ! (FilaPacientes.isEmpty() && UCI.isEmpty()) );
 
         System.out.println("\nEjecucion exitosa.");
     }
