@@ -10,15 +10,10 @@ import java.util.Objects;
 public abstract class Paciente implements IInfeccion
 {
     //Atributos
-    private int Id;
+    private final int Id;
     private float NivelInfeccion;
     private float NivelSalud;
-    private Genoma Genoma;
-
-    //Esto funciona pero no es correcto
-    protected TipoPaciente Tipo;
-    protected float ModificadorInfeccion;
-    protected float ModificadorSalud;
+    private final Genoma Genoma;
 
     //Getters
     public int getId() { return Id; }
@@ -28,6 +23,13 @@ public abstract class Paciente implements IInfeccion
     public float getNivelSalud() { return NivelSalud; }
 
     public Genoma getGenoma() { return Genoma; }
+
+    //Esto funciona y es correcto
+    protected abstract TipoPaciente getTipo();
+
+    protected abstract float getModificadorInfeccion(); // > 1
+
+    protected abstract float getModificadorSalud(); // 0 < && < 1
 
     //Constructor
     protected Paciente(int id, float nivel_infeccion, float nivel_salud, String genoma)
@@ -44,20 +46,21 @@ public abstract class Paciente implements IInfeccion
     {
         if(NivelInfeccion < Parametros.InfeccionMax)
         {
-            if(NivelInfeccion * ModificadorInfeccion > Parametros.InfeccionMax) NivelInfeccion = Parametros.InfeccionMax; //Alcanza el máximo nivel de infección.
+            if(NivelInfeccion * getModificadorInfeccion() > Parametros.InfeccionMax) NivelInfeccion = Parametros.InfeccionMax; //Alcanza el máximo nivel de infección.
 
-            NivelInfeccion *= ModificadorInfeccion;
+            NivelInfeccion *= getModificadorInfeccion();
         }
     }
 
+    //Implementacion de la Interfaz
     @Override
     public void DisminuirSalud()
     {
         if(NivelSalud > Parametros.SaludMin)
         {
-            if(NivelSalud * ModificadorSalud < Parametros.SaludMin) NivelSalud = Parametros.SaludMin; //La salud cae a 0. (el paciente muere)
+            if(NivelSalud * getModificadorSalud() < Parametros.SaludMin) NivelSalud = Parametros.SaludMin; //La salud cae a 0. (el paciente muere)
 
-            NivelSalud *= ModificadorSalud;
+            NivelSalud *= getModificadorSalud();
         }
     }
 
@@ -71,7 +74,7 @@ public abstract class Paciente implements IInfeccion
                 "\nNivel de Infeccion: %.2f\n" +
                 "\nNivel de Salud: %.2f\n" +
                 "%s", //ToString method of Genoma class shown here
-                Id, Tipo, NivelInfeccion, NivelSalud, Genoma);
+                Id, getTipo(), NivelInfeccion, NivelSalud, Genoma);
     }
 
     //Equals

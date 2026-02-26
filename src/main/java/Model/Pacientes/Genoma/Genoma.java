@@ -1,8 +1,5 @@
 package Model.Pacientes.Genoma;
 
-import Model.Pacientes.Paciente;
-import Model.Suministros.TanqueOxigeno;
-
 import java.util.Objects;
 
 public class Genoma
@@ -87,7 +84,7 @@ public class Genoma
                         if (fin <= inicio) { throw new IllegalArgumentException("\nGenoma no valido.\n"); }
 
                         Secuencia = genoma.substring(inicio, fin);
-                        UnidadesVacunaA = Byte.parseByte(Secuencia);
+                        UnidadesVacunaA += Byte.parseByte(Secuencia);
 
                         //El contador continua desde la siguiente letra
                         i = fin - 1;
@@ -110,7 +107,7 @@ public class Genoma
                         if (fin <= inicio) { throw new IllegalArgumentException("\nGenoma no valido.\n"); }
 
                         Secuencia = genoma.substring(inicio, fin);
-                        UnidadesSueroB = Byte.parseByte(Secuencia);
+                        UnidadesSueroB += Byte.parseByte(Secuencia);
 
                         //El contador continua desde la siguiente letra
                         i = fin - 1;
@@ -133,7 +130,7 @@ public class Genoma
                         if (fin <= inicio) { throw new IllegalArgumentException("\nGenoma no valido.\n"); }
 
                         Secuencia = genoma.substring(inicio, fin);
-                        TanquesOxigeno = Byte.parseByte(Secuencia);
+                        TanquesOxigeno += Byte.parseByte(Secuencia);
 
                         //El contador continua desde la siguiente letra
                         i = fin - 1;
