@@ -28,9 +28,9 @@ public class Genoma
         return String.format(
                 "\nGenoma: %s\n" +
                 "\nMedicamentos necesarios:\n" +
-                "\n * Vacuna A: %d unidades.\n" +
+                "\n * VacunaA: %d unidades.\n" +
                 "\n * SueroB: %d unidades.\n" +
-                "\n * Tanques de oxigeno: %d unidades.\n",
+                "\n * %d Tanques de oxigeno.\n",
                 genoma_texto, UnidadesVacunaA, UnidadesSueroB, TanquesOxigeno);
     }
 
@@ -49,9 +49,10 @@ public class Genoma
     @Override
     public  int hashCode() { return Objects.hash(UnidadesVacunaA, UnidadesSueroB, TanquesOxigeno); }
 
-    //Metodo privado par interpretar el genoma, se llama desde el constructor.
+    //Metodo privado para interpretar el genoma, se llama desde el constructor.
     private void InterpretarGenoma(String genoma)
     {
+        //Los medicamentos necesarios para sanar al paciente comienzan en 0.
         UnidadesVacunaA = 0;
         UnidadesSueroB = 0;
         TanquesOxigeno = 0;
@@ -60,7 +61,7 @@ public class Genoma
         {
             genoma += '.'; //Agregar un punto al final evita IndexOutOfBoundsException.
             String Secuencia; //Una combinación entre A/B/O  y un número.
-            char[] Informacion = genoma.toCharArray();
+            char[] Informacion = genoma.toCharArray(); //Convertir el genoma a un arreglo de caracteres
             int inicio, fin;
 
             for (int i = 0; i < Informacion.length; i++)

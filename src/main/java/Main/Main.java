@@ -1,16 +1,12 @@
 package Main;
 
 import GestorArchivo.FileIO;
+import Parametros.Parametros;
+import Model.Silo_Aislamiento.Silo;
 import Model.Pacientes.*;
-import Parametros.*;
 import Model.Suministros.*;
 
-import java.util.Queue;
 import java.util.Random;
-import java.util.Stack;
-
-import org.apache.commons.collections4.Bag;
-import org.apache.commons.collections4.bag.HashBag;
 
 public class Main
 {
@@ -19,26 +15,19 @@ public class Main
     public static void main(String[] args)
     {
         //Configuración de estado inicial.
-        int CargaViral = Parametros.CargaInicial;
-
         FileIO.RegistrarPacientes();
-        Queue<Paciente> FilaPacientes = FileIO.ConsultarRegistroPacientes();
-        Stack<Paciente> UCI = new Stack<>();
-        Bag<Suministro> Suministros = new HashBag<>();
-        //Instancias de prueba para la simulación, no tienen atributos y solo implementan los métodos básicos.
-        VacunaA vacuna = new VacunaA();
-        SueroB suero = new SueroB();
-        TanqueOxigeno pipeta = new TanqueOxigeno();
+        Silo Lazaro = Silo.getInstance();
 
         System.out.println("This is a Test.");
 
-        for(Paciente p : FilaPacientes) System.out.println(p);
+        for(Paciente p : Lazaro.getFilaPacientes()) System.out.println(p);
 
         do
         {
-            CargaViral += Parametros.IncrementoNatural;
-        }while (CargaViral < Parametros.UmbralColapso && ! (FilaPacientes.isEmpty() && UCI.isEmpty()) );
+            Lazaro.CargaViral += Parametros.IncrementoNatural;
+        }while (Lazaro.CargaViral < Parametros.UmbralColapso && ! (Lazaro.getFilaPacientes().isEmpty() && Lazaro.getUCI().isEmpty()) );
 
+        System.out.println(Lazaro);
         System.out.println("\nEjecucion exitosa.");
     }
 }

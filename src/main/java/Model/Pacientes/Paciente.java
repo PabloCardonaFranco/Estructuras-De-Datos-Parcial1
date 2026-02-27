@@ -64,7 +64,7 @@ public abstract class Paciente implements IInfeccion
         }
     }
 
-    //ToString
+    //$ToString
     @Override
     public String toString()
     {

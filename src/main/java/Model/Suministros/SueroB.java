@@ -1,6 +1,6 @@
 package Model.Suministros;
 
-public class SueroB
+public class SueroB extends Suministro
 {
     public SueroB() { super(); }
 

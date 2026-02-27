@@ -16,5 +16,5 @@ public class Medico extends Paciente
     protected float getModificadorInfeccion() { return 1.2f; } //Su nivel de infeccion incrementa en 20% cada turno
 
     @Override
-    protected float getModificadorSalud() { return 0; } //Su nivel de salud disminuye en 30% cada turno
+    protected float getModificadorSalud() { return 0.7f; } //Su nivel de salud disminuye en 30% cada turno
 }
